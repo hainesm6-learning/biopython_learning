@@ -32,7 +32,7 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
     IUPACUnambiguousDNA()
 
 ## 3.2 Sequences act like strings
-- Many string methods are available to Seq even though Seq does not inherit from String e.g. len(), enumerate(), count()
+- Many string methods are available to Seq even though Seq does not inherit from String ([biopython_play.py](biopython_learning/scripts/biopython_play.py)) e.g. len(), enumerate(), count()
 - Unless stated, Seq objects are immutable.
 
 ## 3.3 Slicing a sequence
@@ -50,6 +50,7 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
     >Name
     GATCGATGGGCCTATATAGGATCGAAAATCGC
     <BLANKLINE>
+- Note it is also possible to format sequences using f strings [biopython_play.py](biopython_learning/scripts/biopython_play.py)
 
 ## 3.5 Concatenating or adding sequences
 
