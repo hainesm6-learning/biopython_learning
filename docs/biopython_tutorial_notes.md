@@ -2,9 +2,9 @@
 These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based on the material provided by the [Biopython Tutorial and Cookbook](http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc15).
 
 # Sections to read
-- [ ] Chapter 3:
-    - [ ] 3.1 - 3.7
-    - [ ] 3.11 - 3.14
+- [x] Chapter 3:
+    - [x] 3.1 - 3.7
+    - [x] 3.11 - 3.14
 - [ ] Chapter 4
 - [ ] Chapter 5
 - [ ] Chapter 21
@@ -32,14 +32,14 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
     IUPACUnambiguousDNA()
 
 ## 3.2 Sequences act like strings
-- Many string methods are available to Seq even though Seq does not inherit from String ([biopython_play.py](biopython_learning/scripts/biopython_play.py)) e.g. len(), enumerate(), count()
-- Unless stated, Seq objects are immutable.
+- Many string methods are available to Seq even though Seq does not inherit from String ([biopython_play.py](biopython_learning/scripts/biopython_play.py)) e.g. **len()**, **enumerate()**, **count()**.
+- Unless [converted](##3.12-MutableSeq-objects), Seq objects are immutable.
 
 ## 3.3 Slicing a sequence
 - Slicing is consistent with other python objects e.g. lists.
 
 ## 3.4 Turning Seq objects into strings
-- The str() constructor can be used to convert a Seq object into a String object:
+- The **str()** constructor can be used to convert a Seq object into a String object:
     ```python
     >>> str(my_seq)
     'GATCGATGGGCCTATATAGGATCGAAAATCGC'
@@ -50,9 +50,53 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
     >Name
     GATCGATGGGCCTATATAGGATCGAAAATCGC
     <BLANKLINE>
-- Note it is also possible to format sequences using f strings [biopython_play.py](biopython_learning/scripts/biopython_play.py)
+- It is also possible to format sequences using f strings [biopython_play.py](biopython_learning/scripts/biopython_play.py)
 
 ## 3.5 Concatenating or adding sequences
+- Seq objects written in the same alphabet can be added together using the "+" operator. 
+
+## 3.6 Changing case
+- **upper()** and **lower()** methods change the case of sequences.
+- Note IUPAC alphabets are for upper case sequences only:
+    ```python
+    >>> from Bio.Seq import Seq
+    >>> from Bio.Alphabet import IUPAC
+    >>> dna_seq = Seq("ACGT", IUPAC.unambiguous_dna)
+    >>> dna_seq
+    Seq('ACGT', IUPACUnambiguousDNA())
+    >>> dna_seq.lower()
+    Seq('acgt', DNAAlphabet())
+
+## 3.7 Nucleotide sequences and (reverse) complements
+- **complement()** and **reverse_complement()** methods calculate the complement and reverse complement of nucleotide sequences, respectively.
+- Note Seq objects are immutable and as such the result of these methods is not applied by default.
+
+## 3.11 Comparing Seq objects
+- Biopython will compare Seq objects based on characters. As such, nucleotide and protein sequences can be evaluated as equivalent. A warning will however be provided.
+
+## 3.12 MutableSeq objects
+- MutableSeq objects are created from Seq objects using the **tomutable()** method or by invoking the MutableSeq constructor:
+    ```python
+    >>> from Bio.Seq import MutableSeq
+    >>> from Bio.Alphabet import IUPAC
+    >>> mutable_seq = MutableSeq("GCCATTGTAATGGGCCGCTGAAAGGGTGCCCGA", IUPAC.unambiguous_dna)
+- In addition to Seq methods, **insert()**, **append()** and slicing are useful operations which can be performed on MutableSeq objects.
+
+## 3.13 UnknownSeq objects
+- The UnknownSeq class enables unknown sequences of arbitary length to be defined without occupying memory e.g.
+    ```python
+    >>> from Bio.Seq import UnknownSeq
+    >>> from Bio.Alphabet import IUPAC
+    >>> unk_dna = UnknownSeq(20, alphabet=IUPAC.ambiguous_dna)
+    >>> unk_dna
+    UnknownSeq(20, alphabet=IUPACAmbiguousDNA(), character='N')
+    >>> print(unk_dna)
+    NNNNNNNNNNNNNNNNNNNN
+- Unknown sequences are present in GenBank and EMBL files where only continuous overlapping fragments (contigs) may be given.
+## 3.14 Working with strings directly
+pass
+
+
 
 
 
