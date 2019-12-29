@@ -16,10 +16,10 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
     pip install biopython
 
 # Chapter 3 Sequence Objects
-- Sequence objects differ from strings given they have different methods.
+- Seq objects have different methods compared to strings.
 - Sequence objects have an alphabet attribute describing what the sequence string characters mean.
 ## 3.1 Sequences and Alphabets
-- Biopython available alphabets are defined in the Bio.Alphabet module.
+- Biopython available alphabets are defined in the **Bio.Alphabet** module.
 - IUPAC alphabets are commonly used.
 - While a default alphabet argument is provided, alphabets are typically specificied as in the following example:
     ```python
@@ -33,7 +33,7 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
 
 ## 3.2 Sequences act like strings
 - Many string methods are available to Seq even though Seq does not inherit from String ([biopython_play.py](biopython_learning/scripts/biopython_play.py)) e.g. **len()**, **enumerate()**, **count()**.
-- Unless [converted](##3.12-MutableSeq-objects), Seq objects are immutable.
+- Unless converted to [MutableSeq](##3.12-MutableSeq-objects), Seq objects are immutable.
 
 ## 3.3 Slicing a sequence
 - Slicing is consistent with other python objects e.g. lists.
@@ -53,11 +53,11 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
 - It is also possible to format sequences using f strings [biopython_play.py](biopython_learning/scripts/biopython_play.py)
 
 ## 3.5 Concatenating or adding sequences
-- Seq objects written in the same alphabet can be added together using the "+" operator. 
+- Seq objects written in the same alphabet can be added together using the **+** operator. 
 
 ## 3.6 Changing case
 - **upper()** and **lower()** methods change the case of sequences.
-- Note IUPAC alphabets are for upper case sequences only:
+- Note lower case sequences are not valid IUPAC:
     ```python
     >>> from Bio.Seq import Seq
     >>> from Bio.Alphabet import IUPAC
@@ -69,21 +69,23 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
 
 ## 3.7 Nucleotide sequences and (reverse) complements
 - **complement()** and **reverse_complement()** methods calculate the complement and reverse complement of nucleotide sequences, respectively.
-- Note Seq objects are immutable and as such the result of these methods is not applied by default.
+- Seq objects are immutable and as such the result of these methods is not applied by default.
 
 ## 3.11 Comparing Seq objects
-- Biopython will compare Seq objects based on characters. As such, nucleotide and protein sequences can be evaluated as equivalent. A warning will however be provided.
+- Biopython will compare Seq objects based on characters. As such, nucleotide and protein sequences can be evaluated as equivalent. However, a warning is provided.
 
 ## 3.12 MutableSeq objects
-- MutableSeq objects are created from Seq objects using the **tomutable()** method or by invoking the MutableSeq constructor:
+- MutableSeq objects are created from Seq objects using the **tomutable()** method or by invoking the **MutableSeq()** constructor:
     ```python
     >>> from Bio.Seq import MutableSeq
     >>> from Bio.Alphabet import IUPAC
     >>> mutable_seq = MutableSeq("GCCATTGTAATGGGCCGCTGAAAGGGTGCCCGA", IUPAC.unambiguous_dna)
-- In addition to Seq methods, **insert()**, **append()** and slicing are useful operations which can be performed on MutableSeq objects.
+- In addition to Seq methods, **insert()**, **append()** and indexing are useful operations which can be performed on MutableSeq objects.
+- Given like lists, MutableSeq objects are not hashable, they cannot be used as dictionary keys.
+- The **toseq()** method converts MutableSeq objects to Seq objects.
 
 ## 3.13 UnknownSeq objects
-- The UnknownSeq class enables unknown sequences of arbitary length to be defined without occupying memory e.g.
+- The UnknownSeq class enables unknown sequences of arbitary length to be defined while minimising memory consumption e.g.
     ```python
     >>> from Bio.Seq import UnknownSeq
     >>> from Bio.Alphabet import IUPAC
@@ -95,6 +97,12 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
 - Unknown sequences are present in GenBank and EMBL files where only continuous overlapping fragments (contigs) may be given.
 ## 3.14 Working with strings directly
 pass
+
+# Chapter 4 Sequence annotation objects
+- [SeqRecord](http://biopython.org/DIST/docs/api/Bio.SeqRecord.SeqRecord-class.html) and [SeqFeature](http://biopython.org/DIST/docs/api/Bio.SeqFeature.SeqFeature-class.html) documentation is available online.
+## 4.1 The SeqRecord object
+
+
 
 
 
