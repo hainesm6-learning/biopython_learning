@@ -222,4 +222,13 @@ dbxrefs=[])
   ```python
   FeatureLocation(start, end, strand=None, ref=None, ref_db=None)
   ```
+
+  - **SeqFeature.qualifiers** formated as an OrderedDict with values given in lists e.g.
   
+  ```python
+  qualifiers:
+    Key: chromosome, Value: ['IX']
+    Key: db_xref, Value: ['taxon:4932']
+    Key: mol_type, Value: ['genomic DNA']
+    Key: organism, Value: ['Saccharomyces cerevisiae']
+  ```
