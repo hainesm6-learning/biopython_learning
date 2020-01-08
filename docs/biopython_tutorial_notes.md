@@ -19,6 +19,12 @@
     - [3.14 Working with strings directly](#314-working-with-strings-directly)
   - [Chapter 4 Sequence annotation objects](#chapter-4-sequence-annotation-objects)
     - [4.1 The SeqRecord object](#41-the-seqrecord-object)
+    - [4.2 Creating a SeqRecord](#42-creating-a-seqrecord)
+      - [4.2.1 SeqRecord objects from scratch](#421-seqrecord-objects-from-scratch)
+      - [4.2.2 SeqRecord objects from FASTA files](#422-seqrecord-objects-from-fasta-files)
+      - [4.2.3 SeqRecord objects from GenBank files](#423-seqrecord-objects-from-genbank-files)
+    - [4.3 Feature, location and position objects](#43-feature-location-and-position-objects)
+      - [4.3.1 SeqFeature objects](#431-seqfeature-objects)
 
 ## Description
 
@@ -31,9 +37,6 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
   - [x] 3.11 - 3.14
 - [ ] Chapter 4
 - [ ] Chapter 5
-- [ ] Chapter 21
-- [ ] Chapter 22:
-  - [ ] 22.1
 
 ## Chapter 1 Introduction
 
@@ -163,4 +166,60 @@ pass
 ### 4.1 The SeqRecord object
 
 - The **SeqRecord** class is defined in the **Bio.SeqRecord** module.
-- Each SeqRecord object contains attributes. These attributes are sufficient to completely describe genbank entries (Refer to [seqrecord_play.py](/scripts/seqrecord_play.py))
+- The attributes of a SeqRecord instance are sufficient to completely describe genbank entries (Refer to [seqrecord_play.py](/scripts/seqrecord_play.py))
+
+### 4.2 Creating a SeqRecord
+
+#### 4.2.1 SeqRecord objects from scratch
+
+- When creating a SeqRecord object from scratch, a Seq object is required and an **id** attribute is important if the SeqRecord object will be written to file.
+- The following generates a SeqRecord object and assigns an id:
+
+```python
+>>> from Bio.Seq import Seq
+>>> from Bio.SeqRecord import SeqRecord
+>>> simple_seq = Seq("GATC")
+>>> simple_seq_r = SeqRecord(simple_seq, id="AC12345")
+```
+
+- Several additional attributes are available and can be used to completely describe GenBank Records. Refer to [Sample_GenBank_Record](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html) and the output of [seqrecord_play.py](/scripts/seqrecord_play.py).
+
+#### 4.2.2 SeqRecord objects from FASTA files
+
+- SeqRecord objects are generated from FASTA files using the **SeqIO** module and associated methods [Chapter 5](#Chapter-5-Sequence-Input/Output).
+
+```python
+>>> from Bio import SeqIO
+>>> record = SeqIO.read("NC_005816.fna", "fasta")
+>>> record
+SeqRecord(seq=Seq('TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG',
+SingleLetterAlphabet()), id='gi|45478711|ref|NC_005816.1|', name='gi|45478711|ref|NC_005816.1|',
+description='gi|45478711|ref|NC_005816.1| Yersinia pestis biovar Microtus ... sequence',
+dbxrefs=[])
+```
+
+- A default alphabet has been used to for the Seq object. If possible, a more specific alphabet should be utilised (refer to SeqIO documentation).
+- The first word of the FASTA record’s title line (after removing the greater than symbol) is used for both the id and name attributes.
+- The whole title line is used for the record description.
+
+#### 4.2.3 SeqRecord objects from GenBank files
+
+- SeqRecord objects are generated from GenBank files using a similar syntax to that used above for FASTA files.
+- An example is given in the [seqrecord_play.py](/scripts/seqrecord_play.py) script. Of note:
+  - A more specific alphabet is given.
+  - The **name** is derived from the LOCUS, while the **id** includes the version suffix.
+  - Most of the information gets stored as annotations in the **example_seqrecord.annotations** attribute as key, value pairs.
+
+### 4.3 Feature, location and position objects
+
+#### 4.3.1 SeqFeature objects
+
+- **SeqFeature** objects describe [Features](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html#FeaturesA) in SeqRecord objects.
+- Three important attributes belong to the SeqFeature class:
+  - **SeqFeature.type** which is equivalent to the key of Features in GenBank files e.g. CDS.
+  - **SeqFeature.location** which is usually a **SeqFeature.FeatureLocation** object with the following arguments:
+  
+  ```python
+  FeatureLocation(start, end, strand=None, ref=None, ref_db=None)
+  ```
+  
