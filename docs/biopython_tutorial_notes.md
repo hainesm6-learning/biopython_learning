@@ -53,8 +53,8 @@ These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based 
 - [x] Chapter 3:
   - [x] 3.1 - 3.7
   - [x] 3.11 - 3.14
-- [ ] Chapter 4
-- [ ] Chapter 5
+- [x] Chapter 4
+- [x] Chapter 5
 
 ## Chapter 1 Introduction
 
