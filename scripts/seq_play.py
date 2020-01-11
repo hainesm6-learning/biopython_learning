@@ -9,6 +9,9 @@ print(Seq.__bases__)
 my_seq = Seq("AGTACACTGGT", IUPAC.unambiguous_dna)
 print(f"The value of my_seq is {my_seq}.")
 
+# Example of using the format method on a Seq object
+print("my_seq can be expressed as a string using the format method: {}".format(my_seq))
+
 # Can Seq objects be overwritten by reverse complements or are they immutable?
 my_seq = my_seq.reverse_complement()
 print(f"The value of my_seq is {my_seq}.")

@@ -87,12 +87,12 @@ IUPACUnambiguousDNA()
 
 ### 3.2 Sequences act like strings
 
-- Many string methods are available to Seq even though Seq does not inherit from String ([seq_play.py](/scripts/seq_play.py) e.g. **len()**, **enumerate()**, **count()**.
+- Many string methods are available to Seq even though Seq does not inherit from String ([seq_play.py](/scripts/seq_play.py) e.g. **len()**, **enumerate()**, **count()**).
 - Unless converted to [MutableSeq](##3.12-MutableSeq-objects), Seq objects are immutable.
 
 ### 3.3 Slicing a sequence
 
-- Slicing is consistent with other python objects e.g. lists.
+- Slicing is consistent with other python objects e.g. strings and lists.
 
 ### 3.4 Turning Seq objects into strings
 
@@ -113,7 +113,7 @@ GATCGATGGGCCTATATAGGATCGAAAATCGC
 <BLANKLINE>
 ```
 
-- It is also possible to format sequences using f strings [seq_play.py](/scripts/seq_play.py)
+- It is also possible to format sequences using **f strings** and the **format()** method [seq_play.py](/scripts/seq_play.py)
 
 ### 3.5 Concatenating or adding sequences
 

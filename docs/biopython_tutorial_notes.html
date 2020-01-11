@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Biopython tutorial notes</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h1 id="biopython-tutorial-notes">Biopython tutorial notes</h1>
+<ul>
+<li><a href="#biopython-tutorial-notes">Biopython tutorial notes</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#sections-to-read">Sections to read</a></li>
+<li><a href="#chapter-1-introduction">Chapter 1 Introduction</a>
+<ul>
+<li><a href="#13-installation">1.3 installation</a></li>
+</ul>
+</li>
+<li><a href="#chapter-3-sequence-objects">Chapter 3 Sequence Objects</a>
+<ul>
+<li><a href="#31-sequences-and-alphabets">3.1 Sequences and Alphabets</a></li>
+<li><a href="#32-sequences-act-like-strings">3.2 Sequences act like strings</a></li>
+<li><a href="#33-slicing-a-sequence">3.3 Slicing a sequence</a></li>
+<li><a href="#34-turning-seq-objects-into-strings">3.4 Turning Seq objects into strings</a></li>
+<li><a href="#35-concatenating-or-adding-sequences">3.5 Concatenating or adding sequences</a></li>
+<li><a href="#36-changing-case">3.6 Changing case</a></li>
+<li><a href="#37-nucleotide-sequences-and-reverse-complements">3.7 Nucleotide sequences and (reverse) complements</a></li>
+<li><a href="#311-comparing-seq-objects">3.11 Comparing Seq objects</a></li>
+<li><a href="#312-mutableseq-objects">3.12 MutableSeq objects</a></li>
+<li><a href="#313-unknownseq-objects">3.13 UnknownSeq objects</a></li>
+<li><a href="#314-working-with-strings-directly">3.14 Working with strings directly</a></li>
+</ul>
+</li>
+<li><a href="#chapter-4-sequence-annotation-objects">Chapter 4 Sequence annotation objects</a>
+<ul>
+<li><a href="#41-the-seqrecord-object">4.1 The SeqRecord object</a></li>
+<li><a href="#42-creating-a-seqrecord">4.2 Creating a SeqRecord</a>
+<ul>
+<li><a href="#421-seqrecord-objects-from-scratch">4.2.1 SeqRecord objects from scratch</a></li>
+<li><a href="#422-seqrecord-objects-from-fasta-files">4.2.2 SeqRecord objects from FASTA files</a></li>
+<li><a href="#423-seqrecord-objects-from-genbank-files">4.2.3 SeqRecord objects from GenBank files</a></li>
+</ul>
+</li>
+<li><a href="#43-feature-location-and-position-objects">4.3 Feature, location and position objects</a>
+<ul>
+<li><a href="#431-seqfeature-objects">4.3.1 SeqFeature objects</a></li>
+<li><a href="#432-positions-and-locations">4.3.2 Positions and locations</a></li>
+<li><a href="#433-sequence-described-by-a-feature-or-location">4.3.3 Sequence described by a feature or location</a></li>
+</ul>
+</li>
+<li><a href="#44-comparison">4.4 Comparison</a></li>
+<li><a href="#45-references">4.5 References</a></li>
+<li><a href="#46-the-format-method">4.6 The format method</a></li>
+<li><a href="#47-slicing-a-seqrecord">4.7 Slicing a SeqRecord</a></li>
+<li><a href="#48-adding-seqrecord-objects">4.8 Adding SeqRecord objects</a></li>
+<li><a href="#49-reverse-complementing-seqrecord-objects">4.9 Reverse-complementing SeqRecord objects</a></li>
+</ul>
+</li>
+<li><a href="#chapter-5-sequence-inputoutput">Chapter 5 Sequence Input/Output</a>
+<ul>
+<li><a href="#51-parsing-or-reading-sequences">5.1 Parsing or Reading Sequences</a></li>
+<li><a href="#52-parsing-sequences-from-compressed-files">5.2 Parsing sequences from compressed files</a></li>
+<li><a href="#53-parsing-sequences-from-the-net">5.3 Parsing Sequences from the net</a></li>
+<li><a href="#54-sequence-files-as-dictionaries">5.4 Sequence files as Dictionaries</a></li>
+<li><a href="#55-writing-sequence-files">5.5 Writing Sequence Files</a>
+<ul>
+<li><a href="#551-round-trips">5.5.1 round trips</a></li>
+<li><a href="#552-converting-between-sequence-file-formats">5.5.2 Converting between sequence file formats</a></li>
+<li><a href="#553-converting-a-file-of-sequences-to-their-reverse-complements">5.5.3 converting a file of sequences to their reverse complements</a></li>
+</ul>
+</li>
+<li><a href="#6-low-level-fasta-and-fastq-parsers">.6 Low level FASTA and FASTQ parsers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="description">Description</h2>
+<p>These notes were taken by <a href="https:%5Cgithub.com%5Chainesm6">hainesm6</a> and are based on the material provided by the <a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc15">Biopython Tutorial and Cookbook</a>.</p>
+<h2 id="sections-to-read">Sections to read</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Chapter 3:
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> 3.1 - 3.7</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> 3.11 - 3.14</li>
+</ul>
+</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Chapter 4</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Chapter 5</li>
+</ul>
+<h2 id="chapter-1-introduction">Chapter 1 Introduction</h2>
+<h3 id="13-installation">1.3 installation</h3>
+<pre><code class="language-python"><div>pip install biopython
+</div></code></pre>
+<h2 id="chapter-3-sequence-objects">Chapter 3 Sequence Objects</h2>
+<ul>
+<li>Seq objects have different methods compared to strings.</li>
+<li>Sequence objects have an alphabet attribute describing what the sequence string characters mean.</li>
+</ul>
+<h3 id="31-sequences-and-alphabets">3.1 Sequences and Alphabets</h3>
+<ul>
+<li>Biopython available alphabets are defined in the <strong>Bio.Alphabet</strong> module.</li>
+<li>IUPAC alphabets are commonly used.</li>
+<li>While a default alphabet argument is provided, alphabets are typically specificied as in the following example:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Seq <span class="hljs-keyword">import</span> Seq
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Alphabet <span class="hljs-keyword">import</span> IUPAC
+<span class="hljs-meta">&gt;&gt;&gt; </span>my_seq = Seq(<span class="hljs-string">"AGTACACTGGT"</span>, IUPAC.unambiguous_dna)
+<span class="hljs-meta">&gt;&gt;&gt; </span>my_seq
+Seq(<span class="hljs-string">'AGTACACTGGT'</span>, IUPACUnambiguousDNA())
+<span class="hljs-meta">&gt;&gt;&gt; </span>my_seq.alphabet
+IUPACUnambiguousDNA()
+</div></code></pre>
+<h3 id="32-sequences-act-like-strings">3.2 Sequences act like strings</h3>
+<ul>
+<li>Many string methods are available to Seq even though Seq does not inherit from String (<a href="/scripts/seq_play.py">seq_play.py</a> e.g. <strong>len()</strong>, <strong>enumerate()</strong>, <strong>count()</strong>.</li>
+<li>Unless converted to <a href="##3.12-MutableSeq-objects">MutableSeq</a>, Seq objects are immutable.</li>
+</ul>
+<h3 id="33-slicing-a-sequence">3.3 Slicing a sequence</h3>
+<ul>
+<li>Slicing is consistent with other python objects e.g. lists.</li>
+</ul>
+<h3 id="34-turning-seq-objects-into-strings">3.4 Turning Seq objects into strings</h3>
+<ul>
+<li>The <strong>str()</strong> constructor can be used to convert a Seq object into a String object:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span>str(my_seq)
+<span class="hljs-string">'GATCGATGGGCCTATATAGGATCGAAAATCGC'</span>
+</div></code></pre>
+<ul>
+<li>Feasible to format a string representation of a Seq object using a &quot;%s&quot; placeholder:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span>fasta_format_string = <span class="hljs-string">"&gt;Name\n%s\n"</span> % my_seq
+<span class="hljs-meta">&gt;&gt;&gt; </span>print(fasta_format_string)
+&gt;Name
+GATCGATGGGCCTATATAGGATCGAAAATCGC
+&lt;BLANKLINE&gt;
+</div></code></pre>
+<ul>
+<li>It is also possible to format sequences using f strings <a href="/scripts/seq_play.py">seq_play.py</a></li>
+</ul>
+<h3 id="35-concatenating-or-adding-sequences">3.5 Concatenating or adding sequences</h3>
+<ul>
+<li>Seq objects written in the same alphabet can be added together using the <strong>+</strong> operator.</li>
+</ul>
+<h3 id="36-changing-case">3.6 Changing case</h3>
+<ul>
+<li><strong>upper()</strong> and <strong>lower()</strong> methods change the case of sequences.</li>
+<li>Note lower case sequences are not valid IUPAC:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Seq <span class="hljs-keyword">import</span> Seq
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Alphabet <span class="hljs-keyword">import</span> IUPAC
+<span class="hljs-meta">&gt;&gt;&gt; </span>dna_seq = Seq(<span class="hljs-string">"ACGT"</span>, IUPAC.unambiguous_dna)
+<span class="hljs-meta">&gt;&gt;&gt; </span>dna_seq
+Seq(<span class="hljs-string">'ACGT'</span>, IUPACUnambiguousDNA())
+<span class="hljs-meta">&gt;&gt;&gt; </span>dna_seq.lower()
+Seq(<span class="hljs-string">'acgt'</span>, DNAAlphabet())
+</div></code></pre>
+<h3 id="37-nucleotide-sequences-and-reverse-complements">3.7 Nucleotide sequences and (reverse) complements</h3>
+<ul>
+<li><strong>complement()</strong> and <strong>reverse_complement()</strong> methods calculate the complement and reverse complement of nucleotide sequences, respectively.</li>
+<li>Seq objects are immutable and as such the result of these methods is not applied by default.</li>
+</ul>
+<h3 id="311-comparing-seq-objects">3.11 Comparing Seq objects</h3>
+<ul>
+<li>Biopython will compare Seq objects based on characters. As such, nucleotide and protein sequences can be evaluated as equivalent. However, a warning is provided.</li>
+</ul>
+<h3 id="312-mutableseq-objects">3.12 MutableSeq objects</h3>
+<ul>
+<li>MutableSeq objects are created from Seq objects using the <strong>tomutable()</strong> method or by invoking the <strong>MutableSeq()</strong> constructor:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Seq <span class="hljs-keyword">import</span> MutableSeq
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Alphabet <span class="hljs-keyword">import</span> IUPAC
+<span class="hljs-meta">&gt;&gt;&gt; </span>mutable_seq = MutableSeq(<span class="hljs-string">"GCCATTGTAATGGGCCGCTGAAAGGGTGCCCGA"</span>, IUPAC.unambiguous_dna)
+</div></code></pre>
+<ul>
+<li>In addition to Seq methods, <strong>insert()</strong>, <strong>append()</strong> and indexing are useful operations which can be performed on MutableSeq objects.</li>
+<li>Like lists, MutableSeq objects are not hashable, they cannot be used as dictionary keys.</li>
+<li>The <strong>toseq()</strong> method converts MutableSeq objects to Seq objects.</li>
+</ul>
+<h3 id="313-unknownseq-objects">3.13 UnknownSeq objects</h3>
+<ul>
+<li>The UnknownSeq class enables unknown sequences of arbitary length to be defined while minimising memory consumption e.g.</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Seq <span class="hljs-keyword">import</span> UnknownSeq
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Alphabet <span class="hljs-keyword">import</span> IUPAC
+<span class="hljs-meta">&gt;&gt;&gt; </span>unk_dna = UnknownSeq(<span class="hljs-number">20</span>, alphabet=IUPAC.ambiguous_dna)
+<span class="hljs-meta">&gt;&gt;&gt; </span>unk_dna
+UnknownSeq(<span class="hljs-number">20</span>, alphabet=IUPACAmbiguousDNA(), character=<span class="hljs-string">'N'</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>print(unk_dna)
+NNNNNNNNNNNNNNNNNNNN
+</div></code></pre>
+<ul>
+<li>Unknown sequences are present in GenBank and EMBL files where only continuous overlapping fragments (contigs) may be given.</li>
+</ul>
+<h3 id="314-working-with-strings-directly">3.14 Working with strings directly</h3>
+<p>pass</p>
+<h2 id="chapter-4-sequence-annotation-objects">Chapter 4 Sequence annotation objects</h2>
+<ul>
+<li><a href="http://biopython.org/DIST/docs/api/Bio.SeqRecord.SeqRecord-class.html">SeqRecord</a> and <a href="http://biopython.org/DIST/docs/api/Bio.SeqFeature.SeqFeature-class.html">SeqFeature</a> documentation is available online.</li>
+</ul>
+<h3 id="41-the-seqrecord-object">4.1 The SeqRecord object</h3>
+<ul>
+<li>The <strong>SeqRecord</strong> class is defined in the <strong>Bio.SeqRecord</strong> module.</li>
+<li>The attributes of a SeqRecord instance are sufficient to completely describe genbank entries (Refer to <a href="/scripts/seqrecord_play.py">seqrecord_play.py</a>)</li>
+</ul>
+<h3 id="42-creating-a-seqrecord">4.2 Creating a SeqRecord</h3>
+<h4 id="421-seqrecord-objects-from-scratch">4.2.1 SeqRecord objects from scratch</h4>
+<ul>
+<li>When creating a SeqRecord object from scratch, a Seq object is required and an <strong>id</strong> attribute is important if the SeqRecord object will be written to file.</li>
+<li>The following generates a SeqRecord object and assigns an id:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.Seq <span class="hljs-keyword">import</span> Seq
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.SeqRecord <span class="hljs-keyword">import</span> SeqRecord
+<span class="hljs-meta">&gt;&gt;&gt; </span>simple_seq = Seq(<span class="hljs-string">"GATC"</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>simple_seq_r = SeqRecord(simple_seq, id=<span class="hljs-string">"AC12345"</span>)
+</div></code></pre>
+<ul>
+<li>Several additional attributes are available and can be used to completely describe GenBank Records. Refer to <a href="https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html">Sample_GenBank_Record</a> and the output of <a href="/scripts/seqrecord_play.py">seqrecord_play.py</a>.</li>
+</ul>
+<h4 id="422-seqrecord-objects-from-fasta-files">4.2.2 SeqRecord objects from FASTA files</h4>
+<ul>
+<li>SeqRecord objects are generated from FASTA files using the <strong>SeqIO</strong> module and associated methods <a href="#Chapter-5-Sequence-Input/Output">Chapter 5</a>.</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span>record = SeqIO.read(<span class="hljs-string">"NC_005816.fna"</span>, <span class="hljs-string">"fasta"</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>record
+SeqRecord(seq=Seq(<span class="hljs-string">'TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG'</span>,
+SingleLetterAlphabet()), id=<span class="hljs-string">'gi|45478711|ref|NC_005816.1|'</span>, name=<span class="hljs-string">'gi|45478711|ref|NC_005816.1|'</span>,
+description=<span class="hljs-string">'gi|45478711|ref|NC_005816.1| Yersinia pestis biovar Microtus ... sequence'</span>,
+dbxrefs=[])
+</div></code></pre>
+<ul>
+<li>A default alphabet has been used to for the Seq object. If possible, a more specific alphabet should be utilised (refer to SeqIO documentation).</li>
+<li>The first word of the FASTA record’s title line (after removing the greater than symbol) is used for both the id and name attributes.</li>
+<li>The whole title line is used for the record description.</li>
+</ul>
+<h4 id="423-seqrecord-objects-from-genbank-files">4.2.3 SeqRecord objects from GenBank files</h4>
+<ul>
+<li>SeqRecord objects are generated from GenBank files using a similar syntax to that used above for FASTA files.</li>
+<li>An example is given in the <a href="/scripts/seqrecord_play.py">seqrecord_play.py</a> script. Of note:
+<ul>
+<li>A more specific alphabet is given.</li>
+<li>The <strong>name</strong> is derived from the LOCUS, while the <strong>id</strong> includes the version suffix.</li>
+<li>Most of the information gets stored as annotations in the <strong>example_seqrecord.annotations</strong> attribute as key, value pairs.</li>
+</ul>
+</li>
+</ul>
+<h3 id="43-feature-location-and-position-objects">4.3 Feature, location and position objects</h3>
+<h4 id="431-seqfeature-objects">4.3.1 SeqFeature objects</h4>
+<ul>
+<li>
+<p><strong>SeqFeature</strong> objects describe <a href="https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html#FeaturesA">Features</a> in SeqRecord objects.</p>
+</li>
+<li>
+<p>Three important attributes belong to the SeqFeature class:</p>
+<ul>
+<li><strong>SeqFeature.type</strong> <em>(type = str)</em> which is equivalent to a <a href="http://www.insdc.org/files/feature_table.html#1">Feature Key</a> in a GenBank file e.g. CDS.</li>
+<li><strong>SeqFeature.location</strong> which is often another object as described in the subsequent section.</li>
+<li><strong>SeqFeature.qualifiers</strong> formated as an OrderedDict with values given in lists (below). Note all string values must be given in <em>list</em> objects. This is because multiple keys of the same value are not permitted in Python <em>dicts</em> and yet multiple qualifier values may be necessary (<a href="http://www.insdc.org/files/feature_table.html#3.3">feature table refer to 3.3.2</a>)</li>
+</ul>
+<pre><code class="language-python"><div>qualifiers:
+  Key: chromosome, Value: [<span class="hljs-string">'IX'</span>]
+  Key: db_xref, Value: [<span class="hljs-string">'taxon:4932'</span>]
+  Key: mol_type, Value: [<span class="hljs-string">'genomic DNA'</span>]
+  Key: organism, Value: [<span class="hljs-string">'Saccharomyces cerevisiae'</span>]
+</div></code></pre>
+</li>
+</ul>
+<h4 id="432-positions-and-locations">4.3.2 Positions and locations</h4>
+<ul>
+<li>Most commonly a SeqFeature.location attribute will contain a <strong>FeatureLocation</strong> instance unless discontinuous locations are required. For further information on the FeatureLocation class the following code should be executed:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-keyword">from</span> Bio.SeqFeature <span class="hljs-keyword">import</span> FeatureLocation
+help(FeatureLocation)
+</div></code></pre>
+<ul>
+<li><strong>CompoundLocation</strong> objects hold multiple FeatureLocation objects, enabling for instance eukaryotic gene locations to be described:</li>
+</ul>
+<pre><code class="language-python"><div> |      &gt;&gt;&gt; <span class="hljs-keyword">from</span> Bio.SeqFeature <span class="hljs-keyword">import</span> FeatureLocation, CompoundLocation
+ |      &gt;&gt;&gt; f1 = FeatureLocation(<span class="hljs-number">10</span>, <span class="hljs-number">40</span>, strand=+<span class="hljs-number">1</span>)
+ |      &gt;&gt;&gt; f2 = FeatureLocation(<span class="hljs-number">50</span>, <span class="hljs-number">59</span>, strand=+<span class="hljs-number">1</span>)
+ |      &gt;&gt;&gt; f = CompoundLocation([f1, f2])
+ |      &gt;&gt;&gt; len(f) == len(f1) + len(f2) == <span class="hljs-number">39</span> == len(list(f))
+ |      <span class="hljs-literal">True</span>
+ |      &gt;&gt;&gt; print(f.operator)
+ |      join
+ |      &gt;&gt;&gt; <span class="hljs-number">5</span> <span class="hljs-keyword">in</span> f
+ |      <span class="hljs-literal">False</span>
+ |      &gt;&gt;&gt; <span class="hljs-number">15</span> <span class="hljs-keyword">in</span> f
+ |      <span class="hljs-literal">True</span>
+ |      &gt;&gt;&gt; f.strand
+ |      <span class="hljs-number">1</span>
+</div></code></pre>
+<ul>
+<li>Passing in <em>int</em> values into <strong>start</strong> and <strong>end</strong> FeatureLocation arguments acutally generates <strong>ExactPosition</strong> objects.</li>
+<li>To allow more abstract defitions of <strong>start</strong> and <strong>end</strong> FeatureLocation arguments, four classes are available:
+<ul>
+<li><strong>AfterPosition</strong></li>
+<li><strong>BeforePosition</strong></li>
+<li><strong>BetweenPosition</strong></li>
+<li><strong>UnknownPosition</strong></li>
+</ul>
+</li>
+<li>As an example:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqFeature
+<span class="hljs-meta">&gt;&gt;&gt; </span>start_pos = SeqFeature.AfterPosition(<span class="hljs-number">5</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>end_pos = SeqFeature.BetweenPosition(<span class="hljs-number">9</span>, left=<span class="hljs-number">8</span>, right=<span class="hljs-number">9</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>my_location = SeqFeature.FeatureLocation(start_pos, end_pos)
+<span class="hljs-meta">&gt;&gt;&gt; </span>my_location.start
+AfterPosition(<span class="hljs-number">5</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>print(my_location.start)
+&gt;<span class="hljs-number">5</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span>my_location.end
+BetweenPosition(<span class="hljs-number">9</span>, left=<span class="hljs-number">8</span>, right=<span class="hljs-number">9</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>print(my_location.end)
+(<span class="hljs-number">8</span>^<span class="hljs-number">9</span>)
+</div></code></pre>
+<ul>
+<li>It is possible to search for which SeqFeatures occur at a given position e.g.</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span>my_snp = <span class="hljs-number">4350</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span>record = SeqIO.read(<span class="hljs-string">"NC_005816.gb"</span>, <span class="hljs-string">"genbank"</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">for</span> feature <span class="hljs-keyword">in</span> record.features:
+<span class="hljs-meta">... </span>    <span class="hljs-keyword">if</span> my_snp <span class="hljs-keyword">in</span> feature:
+<span class="hljs-meta">... </span>        print(<span class="hljs-string">"%s %s"</span> % (feature.type, feature.qualifiers.get(<span class="hljs-string">"db_xref"</span>)))
+...
+source [<span class="hljs-string">'taxon:229193'</span>]
+gene [<span class="hljs-string">'GeneID:2767712'</span>]
+CDS [<span class="hljs-string">'GI:45478716'</span>, <span class="hljs-string">'GeneID:2767712'</span>]
+</div></code></pre>
+<h4 id="433-sequence-described-by-a-feature-or-location">4.3.3 Sequence described by a feature or location</h4>
+<ul>
+<li>To extract the sequence from a SeqFeature object, the <strong>extract()</strong> method can be applied:</li>
+</ul>
+<blockquote>
+<p>extract(self, parent_sequence)
+Extract the feature's sequence from supplied parent sequence.
+The parent_sequence can be a Seq like object or a string, and will
+generally return an object of the same type. The exception to this is
+a MutableSeq as the parent sequence will return a Seq object.</p>
+</blockquote>
+<h3 id="44-comparison">4.4 Comparison</h3>
+<ul>
+<li>SeqRecord instances should not be compared directly as is the case for all Python objects. Instead compare attributes of this class between instances.</li>
+</ul>
+<h3 id="45-references">4.5 References</h3>
+<ul>
+<li>The Reference class contains several attributes to describe references associated with SeqRecord and SeqFeature objects:</li>
+</ul>
+<pre><code class="language-terminal"><code><div>class Reference(builtins.object)
+ |  Represent a Generic Reference object.
+ |
+ |  Attributes:
+ |   - location - A list of Location objects specifying regions of
+ |     the sequence that the references correspond to. If no locations are
+ |     specified, the entire sequence is assumed.
+ |   - authors - A big old string, or a list split by author, of authors
+ |     for the reference.
+ |   - title - The title of the reference.
+ |   - journal - Journal the reference was published in.
+ |   - medline_id - A medline reference for the article.
+ |   - pubmed_id - A pubmed reference for the article.
+ |   - comment - A place to stick any comments about the reference.
+</div></code></code></pre>
+<ul>
+<li>The example_seqrecord variable from <a href="/scripts/seqrecord_play.py">seqrecord_play.py</a> has several Reference objects stored in a list, accessed via the example_seqrecord.annotations['references'] key.</li>
+<li>An example from this <em>dict</em> value is:</li>
+</ul>
+<pre><code class="language-pythonprint"><code><div>location: [0:5028]
+authors: Roemer,T., Madden,K., Chang,J. and Snyder,M.
+title: Selection of axial growth sites in yeast requires Axl2p, a novel plasma membrane glycoprotein
+journal: Genes Dev. 10 (7), 777-793 (1996)
+medline id:
+pubmed id: 8846915
+comment:
+</div></code></code></pre>
+<h3 id="46-the-format-method">4.6 The format method</h3>
+<ul>
+<li>The <strong>format()</strong> method of the SeqRecord class requires an &quot;Bio.SeqIO output format&quot; and returns the SeqRecord formatted in this manner.</li>
+<li>This method appears useful for displaying SeqRecords in the terminal.</li>
+</ul>
+<h3 id="47-slicing-a-seqrecord">4.7 Slicing a SeqRecord</h3>
+<ul>
+<li>An incredibly useful feature of Biopython is the ability to slice SeqRecord objects returning a new object:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span>record = SeqIO.read(<span class="hljs-string">"NC_005816.gb"</span>, <span class="hljs-string">"genbank"</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>record
+SeqRecord(seq=Seq(<span class="hljs-string">'TGTAACGAACGGTGCAATAGTGATCCACACCCAACGCCTGAAATCAGATCCAGG...CTG'</span>,
+IUPACAmbiguousDNA()), id=<span class="hljs-string">'NC_005816.1'</span>, name=<span class="hljs-string">'NC_005816'</span>,
+description=<span class="hljs-string">'Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence'</span>,
+dbxrefs=[<span class="hljs-string">'Project:58037'</span>])
+
+<span class="hljs-meta">&gt;&gt;&gt; </span>sub_record = record[<span class="hljs-number">4300</span>:<span class="hljs-number">4800</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>sub_record
+SeqRecord(seq=Seq(<span class="hljs-string">'ATAAATAGATTATTCCAAATAATTTATTTATGTAAGAACAGGATGGGAGGGGGA...TTA'</span>,
+IUPACAmbiguousDNA()), id=<span class="hljs-string">'NC_005816.1'</span>, name=<span class="hljs-string">'NC_005816'</span>,
+description=<span class="hljs-string">'Yersinia pestis biovar Microtus str. 91001 plasmid pPCP1, complete sequence.'</span>,
+dbxrefs=[])
+</div></code></pre>
+<ul>
+<li>Following slicing <strong>SeqFeature.location</strong> attributes are updated to reflect their new position.</li>
+<li>However, in the above example <strong>sub_record.dbxrefs</strong> has been deleted along with any <strong>sub_record.annotations</strong> key, value pairs. This is to reflect the fact the new sequence is no longer equivalent to the previous.</li>
+<li>To complicate things further, the id, name and description have been preserved in sub_record.</li>
+<li>It is advisable to update general attributes of the new SeqRecord following slicing.</li>
+</ul>
+<h3 id="48-adding-seqrecord-objects">4.8 Adding SeqRecord objects</h3>
+<ul>
+<li>SeqRecord objects can be added to generate new SeqRecords using <strong>+</strong> operator. Note, similar to slicing SeqRecord objects, certain attributes are lost.</li>
+</ul>
+<h3 id="49-reverse-complementing-seqrecord-objects">4.9 Reverse-complementing SeqRecord objects</h3>
+<ul>
+<li>The SeqRecord <strong>reverse_complement()</strong> method calculates the reverse complement of a SeqRecord preserving SeqFeatures and modifying them accordingly. Again annotations and dxrefs are dropped.</li>
+</ul>
+<h2 id="chapter-5-sequence-inputoutput">Chapter 5 Sequence Input/Output</h2>
+<ul>
+<li>Additional help on the SeqIO module can be accessed as below or through the <a href="http://biopython.org/wiki/SeqIO">wiki</a> etc.</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span>help(SeqIO)
+...
+</div></code></pre>
+<h3 id="51-parsing-or-reading-sequences">5.1 Parsing or Reading Sequences</h3>
+<ul>
+<li>Majority of time will use the <strong>SeqIO.parse()</strong> function:</li>
+</ul>
+<pre><code class="language-pythonhelp"><code><div>Help on function parse in module Bio.SeqIO:
+
+parse(handle, format, alphabet=None)
+    Turn a sequence file into an iterator returning SeqRecords.
+
+    Arguments:
+     - handle   - handle to the file, or the filename as a string
+       (note older versions of Biopython only took a handle).
+     - format   - lower case string describing the file format.
+     - alphabet - optional Alphabet object, useful when the sequence type
+       cannot be automatically inferred from the file itself
+       (e.g. format=&quot;fasta&quot; or &quot;tab&quot;)
+</div></code></code></pre>
+<ul>
+<li>To avoid yielding an iterable, the <strong>SeqIO.read()</strong> function will yield a single SeqRecord object when only one entry is present in <strong>handle</strong>.</li>
+<li>Depending on the number and size of the SeqRecord objects associated with handle, it can be desirable to load all SeqRecord objects into a list object simultaneously e.g.</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+
+records = list(SeqIO.parse(<span class="hljs-string">"ls_orchid.gbk"</span>, <span class="hljs-string">"genbank"</span>))
+
+print(<span class="hljs-string">"Found %i records"</span> % len(records))
+</div></code></pre>
+<pre><code class="language-pythonprint"><code><div>Found 94 records
+</div></code></code></pre>
+<ul>
+<li>SeqRecord objects are manipulated as described in <a href="#chapter-4-sequence-annotation-objects">Chapter 4</a>.</li>
+</ul>
+<h3 id="52-parsing-sequences-from-compressed-files">5.2 Parsing sequences from compressed files</h3>
+<ul>
+<li>In addition to strings corresponding with file paths, SeqIO.parse() accepts file objects for <strong>handle</strong> values e.g.</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">with</span> open(<span class="hljs-string">"ls_orchid.gbk"</span>) <span class="hljs-keyword">as</span> handle:
+<span class="hljs-meta">... </span>    print(sum(len(r) <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> SeqIO.parse(handle, <span class="hljs-string">"gb"</span>)))
+<span class="hljs-number">67518</span>
+</div></code></pre>
+<ul>
+<li>This facilitates the decompressing of compressed files using other 3rd party libraries:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> gzip
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">with</span> gzip.open(<span class="hljs-string">"ls_orchid.gbk.gz"</span>, <span class="hljs-string">"rt"</span>) <span class="hljs-keyword">as</span> handle:
+<span class="hljs-meta">... </span>    print(sum(len(r) <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> SeqIO.parse(handle, <span class="hljs-string">"gb"</span>)))
+...
+<span class="hljs-number">67518</span>
+</div></code></pre>
+<h3 id="53-parsing-sequences-from-the-net">5.3 Parsing Sequences from the net</h3>
+<ul>
+<li>Refer to Chapters 9 &amp; 10 in the <a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc111">biopython tutorial</a>.</li>
+</ul>
+<h3 id="54-sequence-files-as-dictionaries">5.4 Sequence files as Dictionaries</h3>
+<ul>
+<li>Biopython provides 3 functions to convert iterables of SeqRecord objects to dictionary or dictionary-like objects:
+<ul>
+<li><strong>Bio.SeqIO.to_dict()</strong></li>
+<li><strong>Bio.SeqIO.index()</strong></li>
+<li><strong>Bio.SeqIO.index_db()</strong></li>
+</ul>
+</li>
+<li>An example of SeqIO.to_dict() is:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span>orchid_dict = SeqIO.to_dict(SeqIO.parse(<span class="hljs-string">"ls_orchid.gbk"</span>, <span class="hljs-string">"genbank"</span>))
+</div></code></pre>
+<ul>
+<li>This is equivalent to:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span>orchid_dict = {}
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">for</span> rec <span class="hljs-keyword">in</span> SeqIO.parse(<span class="hljs-string">"ls_orchid.gbk"</span>, <span class="hljs-string">"genbank"</span>):
+<span class="hljs-meta">&gt;&gt;&gt; </span>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> orchid_dict.get(rec.id):
+<span class="hljs-meta">&gt;&gt;&gt; </span>        orchid_dict[rec.id] = rec
+<span class="hljs-meta">&gt;&gt;&gt; </span>    <span class="hljs-keyword">else</span>:
+<span class="hljs-meta">&gt;&gt;&gt; </span>        <span class="hljs-keyword">raise</span>...
+</div></code></pre>
+<ul>
+<li>The if/else clause ensures SeqIO.to_dict() fails when multiple SeqRecord objects with the same id are found within the iterable.</li>
+<li>To configure dict keys, an optional 2nd argument is provided that accepts <em>function</em> objects:</li>
+</ul>
+<pre><code class="language-pythonhelp"><code><div>Help on function to_dict in module Bio.SeqIO:
+
+to_dict(sequences, key_function=None)
+    Turn a sequence iterator or list into a dictionary.
+
+    Arguments:
+     - sequences  - An iterator that returns SeqRecord objects,
+       or simply a list of SeqRecord objects.
+     - key_function - Optional callback function which when given a
+       SeqRecord should return a unique key for the dictionary.
+</div></code></code></pre>
+<ul>
+<li>The following example illustrates this by assigning <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/pmic.200600032">SEGUIDs</a> for each SeqRecord in the file handle:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.SeqUtils.CheckSum <span class="hljs-keyword">import</span> seguid
+<span class="hljs-meta">&gt;&gt;&gt; </span>seguid_dict = SeqIO.to_dict(SeqIO.parse(<span class="hljs-string">"ls_orchid.gbk"</span>, <span class="hljs-string">"genbank"</span>),
+<span class="hljs-meta">... </span>                            <span class="hljs-keyword">lambda</span> rec : seguid(rec.seq))
+<span class="hljs-meta">&gt;&gt;&gt; </span>record = seguid_dict[<span class="hljs-string">"MN/s0q9zDoCVEEc+k/IFwCNF2pY"</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>print(record.id)
+Z78532<span class="hljs-number">.1</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span>record.description
+<span class="hljs-string">'C.californicum 5.8S rRNA gene and ITS1 and ITS2 DNA'</span>
+</div></code></pre>
+<blockquote>
+<p>A key limitation of <strong>SeqIO.to_dict()</strong> is that all attributes etc. of SeqRecords are held in RAM. This can slow calculations for files containing large numbers of entries.</p>
+</blockquote>
+<ul>
+<li>An alternative <strong>SeqIO.index()</strong> which returns a dictionay-like object  where not all SeqRecords are in memory. Rather they are called into memory on demand as required. I suspect that for computers with SSD <strong>SeqIO.index()</strong> will be close to <strong>SeqIO.to_dict()</strong> in terms of speed.</li>
+<li>A limitation of SeqIO.index() is that handles to files cannot be used, only filenames (below). However, bgz compressed files can be used (see <a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc62">indexing compressed files 5.4.4</a>)</li>
+</ul>
+<pre><code class="language-pythonhelp"><code><div>Help on function index in module Bio.SeqIO:
+
+index(filename, format, alphabet=None, key_function=None)
+    Indexes a sequence file and returns a dictionary like object.
+
+    Arguments:
+     - filename - string giving name of file to be indexed...
+</div></code></code></pre>
+<ul>
+<li><em>The dictionary-like object returned by the SeqIO.index() function is technically an instance of the _IndexedSeqFileDict class. This class has a get_raw() method which can return an array of bytes. However, it doesn't seem clear what encoding is used by this function.</em></li>
+<li>If you are working with an incredibly large files, <strong>SeqIO.index_db</strong> will store record information on disk in an SQLite3 database.</li>
+</ul>
+<h3 id="55-writing-sequence-files">5.5 Writing Sequence Files</h3>
+<ul>
+<li>Use the <strong>SeqIO.write()</strong> function:</li>
+</ul>
+<pre><code class="language-pythonhelp"><code><div>Help on function write in module Bio.SeqIO:
+
+write(sequences, handle, format)
+    Write complete set of sequences to a file.
+
+    Arguments:
+     - sequences - A list (or iterator) of SeqRecord objects, or (if using
+       Biopython 1.54 or later) a single SeqRecord.
+     - handle    - File handle object to write to, or filename as string
+       (note older versions of Biopython only took a handle).
+     - format    - lower case string describing the file format to write.
+
+    Note if providing a file handle, your code should close the handle
+    after calling this function (to ensure the data gets flushed to disk).
+
+    Returns the number of records written (as an integer).
+</div></code></code></pre>
+<h4 id="551-round-trips">5.5.1 round trips</h4>
+<ul>
+<li>Where a written file is the same as the unaltered parsed version.</li>
+<li>This may not happen, refer to <a href="/scripts/seqrecord_play.py">seqrecord_play.py</a>.</li>
+</ul>
+<h4 id="552-converting-between-sequence-file-formats">5.5.2 Converting between sequence file formats</h4>
+<ul>
+<li>Rather than 1st parsing and then writing, biopython provides the <strong>SeqIO.convert()</strong> function:</li>
+</ul>
+<pre><code class="language-pythonhelp"><code><div>Help on function convert in module Bio.SeqIO:
+
+convert(in_file, in_format, out_file, out_format, alphabet=None)
+    Convert between two sequence file formats, return number of records.
+
+    Arguments:
+     - in_file - an input handle or filename
+     - in_format - input file format, lower case string
+     - out_file - an output handle or filename
+     - out_format - output file format, lower case string
+     - alphabet - optional alphabet to assume
+</div></code></code></pre>
+<h4 id="553-converting-a-file-of-sequences-to-their-reverse-complements">5.5.3 converting a file of sequences to their reverse complements</h4>
+<ul>
+<li>List and generator comprehensions are powerful tools for batch converting SeqRecords. For instance:</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio <span class="hljs-keyword">import</span> SeqIO
+<span class="hljs-meta">&gt;&gt;&gt; </span>records = (rec.reverse_complement(id=<span class="hljs-string">"rc_"</span>+rec.id, description = <span class="hljs-string">"reverse complement"</span>) \
+<span class="hljs-meta">... </span>           <span class="hljs-keyword">for</span> rec <span class="hljs-keyword">in</span> SeqIO.parse(<span class="hljs-string">"ls_orchid.fasta"</span>, <span class="hljs-string">"fasta"</span>) <span class="hljs-keyword">if</span> len(rec)&lt;<span class="hljs-number">700</span>)
+<span class="hljs-meta">&gt;&gt;&gt; </span>SeqIO.write(records, <span class="hljs-string">"rev_comp.fasta"</span>, <span class="hljs-string">"fasta"</span>)
+<span class="hljs-number">18</span>
+</div></code></pre>
+<ul>
+<li>Note in the above example the SeqIO.write() function prints the number of entries when writing from generators.</li>
+<li>A further impressive entry is given in section 20.1.3 where SeqRecords are translated and written to a seperate file.</li>
+</ul>
+<h3 id="6-low-level-fasta-and-fastq-parsers">.6  Low level FASTA and FASTQ parsers</h3>
+<ul>
+<li>Alternatives to SeqIO.parse() for FASTA FASTQ files are <strong>SimpleFastaParser</strong> or <strong>FastqGeneralIterator</strong> e.g.</li>
+</ul>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> Bio.SeqIO.FastaIO <span class="hljs-keyword">import</span> SimpleFastaParser
+</div></code></pre>
+<pre><code class="language-pythonhelp"><code><div>Help on function SimpleFastaParser in module Bio.SeqIO.FastaIO:
+
+SimpleFastaParser(handle)
+    Iterate over Fasta records as string tuples.
+
+    For each record a tuple of two strings is returned, the FASTA title
+    line (without the leading '&gt;' character), and the sequence (with any
+    whitespace removed). The title line is not divided up into an
+    identifier (the first word) and comment or description.
+</div></code></code></pre>
+<p>-Refer to Chapter 20 in the online tutorial for further information.</p>
+
+    </body>
+    </html>
