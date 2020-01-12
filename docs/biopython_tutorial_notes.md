@@ -42,7 +42,7 @@
       - [5.5.1 round trips](#551-round-trips)
       - [5.5.2 Converting between sequence file formats](#552-converting-between-sequence-file-formats)
       - [5.5.3 converting a file of sequences to their reverse complements](#553-converting-a-file-of-sequences-to-their-reverse-complements)
-    - [.6 Low level FASTA and FASTQ parsers](#6-low-level-fasta-and-fastq-parsers)
+    - [5.6  Low level FASTA and FASTQ parsers](#56-low-level-fasta-and-fastq-parsers)
 
 ## Description
 
@@ -190,7 +190,7 @@ pass
 
 #### 4.2.1 SeqRecord objects from scratch
 
-- When creating a SeqRecord object from scratch, a Seq object is required and an **id** attribute is important if the SeqRecord object will be written to file.
+- When creating a SeqRecord object from scratch, a Seq object is required and an **id** attribute is important if the SeqRecord object will be written to a file.
 - The following generates a SeqRecord object and assigns an id:
 
 ```python
@@ -235,7 +235,7 @@ dbxrefs=[])
 - **SeqFeature** objects describe [Features](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html#FeaturesA) in SeqRecord objects.
 - Three important attributes belong to the SeqFeature class:
   - **SeqFeature.type** *(type = str)* which is equivalent to a [Feature Key](http://www.insdc.org/files/feature_table.html#1) in a GenBank file e.g. CDS.
-  - **SeqFeature.location** which is often another object as described in the subsequent section.
+  - **SeqFeature.location** which is often another object as described in the subsequent section ([4.3.2](#4.3.2-Positions-and-locations)).
   - **SeqFeature.qualifiers** formated as an OrderedDict with values given in lists (below). Note all string values must be given in *list* objects. This is because multiple keys of the same value are not permitted in Python *dicts* and yet multiple qualifier values may be necessary ([feature table refer to 3.3.2](http://www.insdc.org/files/feature_table.html#3.3))
   
   ```python
@@ -347,7 +347,7 @@ class Reference(builtins.object)
  |   - comment - A place to stick any comments about the reference.
  ```
 
-- The example_seqrecord variable from [seqrecord_play.py](/scripts/seqrecord_play.py) has several Reference objects stored in a list, accessed via the example_seqrecord.annotations['references'] key.
+- The **example_seqrecord** variable from [seqrecord_play.py](/scripts/seqrecord_play.py) has several **Reference objects** stored in a list, accessed via the example_seqrecord.annotations['references'] key.
 - An example from this *dict* value is:
 
 ```pythonprint
@@ -363,11 +363,11 @@ comment:
 ### 4.6 The format method
 
 - The **format()** method of the SeqRecord class requires an "Bio.SeqIO output format" and returns the SeqRecord formatted in this manner.
-- This method appears useful for displaying SeqRecords in the terminal.
+- This method is useful for displaying SeqRecords in the terminal.
 
 ### 4.7 Slicing a SeqRecord
 
-- An incredibly useful feature of Biopython is the ability to slice SeqRecord objects returning a new object:
+- A desirable feature of Biopython is the ability to slice SeqRecord objects returning a new object:
 
 ```python
 >>> from Bio import SeqIO
@@ -389,7 +389,7 @@ dbxrefs=[])
 - Following slicing **SeqFeature.location** attributes are updated to reflect their new position.
 - However, in the above example **sub_record.dbxrefs** has been deleted along with any **sub_record.annotations** key, value pairs. This is to reflect the fact the new sequence is no longer equivalent to the previous.
 - To complicate things further, the id, name and description have been preserved in sub_record.
-- It is advisable to update general attributes of the new SeqRecord following slicing.
+- **It is advisable to update general attributes of the new SeqRecord following slicing.**
 
 ### 4.8 Adding SeqRecord objects
 
@@ -397,7 +397,7 @@ dbxrefs=[])
 
 ### 4.9 Reverse-complementing SeqRecord objects
 
-- The SeqRecord **reverse_complement()** method calculates the reverse complement of a SeqRecord preserving SeqFeatures and modifying them accordingly. Again annotations and dxrefs are dropped.
+- The SeqRecord **reverse_complement()** method calculates the reverse complement of a SeqRecord preserving SeqFeatures and modifying them accordingly. Again annotations and dxrefs are deleted.
 
 ## Chapter 5 Sequence Input/Output
 
@@ -411,7 +411,7 @@ dbxrefs=[])
 
 ### 5.1 Parsing or Reading Sequences
 
-- Majority of time will use the **SeqIO.parse()** function:
+- The main function for importing sequences is **SeqIO.parse()**:
 
 ```pythonhelp
 Help on function parse in module Bio.SeqIO:
@@ -447,7 +447,7 @@ Found 94 records
 
 ### 5.2 Parsing sequences from compressed files
 
-- In addition to strings corresponding with file paths, SeqIO.parse() accepts file objects for **handle** values e.g.
+- In addition to strings corresponding with file paths, SeqIO.parse() accepts **file objects** as handle arguments e.g.
 
 ```python
 >>> from Bio import SeqIO
@@ -484,7 +484,8 @@ Found 94 records
 >>> orchid_dict = SeqIO.to_dict(SeqIO.parse("ls_orchid.gbk", "genbank"))
 ```
 
-- This is equivalent to:
+- The above 2 lines of code are equivalent to the 7 lines below.
+- Note, **SeqRecord id** attributes are used as dictionary keys and an error is raised if two keys of the same value are encountered:
 
 ```python
 >>> from Bio import SeqIO
@@ -496,8 +497,7 @@ Found 94 records
 >>>         raise...
 ```
 
-- The if/else clause ensures SeqIO.to_dict() fails when multiple SeqRecord objects with the same id are found within the iterable.
-- To configure dict keys, an optional 2nd argument is provided that accepts *function* objects:
+- To configure dict keys, an optional 2nd argument is provided by SeqIO.to_dict() that accepts *function* objects:
 
 ```pythonhelp
 Help on function to_dict in module Bio.SeqIO:
@@ -528,8 +528,8 @@ Z78532.1
 
 > A key limitation of **SeqIO.to_dict()** is that all attributes etc. of SeqRecords are held in RAM. This can slow calculations for files containing large numbers of entries.
 
-- An alternative **SeqIO.index()** which returns a dictionay-like object  where not all SeqRecords are in memory. Rather they are called into memory on demand as required. I suspect that for computers with SSD **SeqIO.index()** will be close to **SeqIO.to_dict()** in terms of speed.
-- A limitation of SeqIO.index() is that handles to files cannot be used, only filenames (below). However, bgz compressed files can be used (see [indexing compressed files 5.4.4](http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc62))
+- An alternative is **SeqIO.index()** which returns a dictionay-like object  where not all SeqRecords are in memory. Rather they are called into memory on demand as required. *I suspect where SSDs are used, **SeqIO.index()** is close to **SeqIO.to_dict()** in terms of speed.*
+- A limitation of SeqIO.index() is that handles to files cannot be used, only filenames (below). However, if compressed files are required, bgz file format is tolerated (see [indexing compressed files 5.4.4](http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc62))
 
 ```pythonhelp
 Help on function index in module Bio.SeqIO:
@@ -541,7 +541,7 @@ index(filename, format, alphabet=None, key_function=None)
      - filename - string giving name of file to be indexed...
 ```
 
-- *The dictionary-like object returned by the SeqIO.index() function is technically an instance of the _IndexedSeqFileDict class. This class has a get_raw() method which can return an array of bytes. However, it doesn't seem clear what encoding is used by this function.*
+- *The dictionary-like object returned by the SeqIO.index() function is technically an instance of the _IndexedSeqFileDict class. This class has a get_raw() method which can return an array of bytes. However, it doesn't seem clear what encoding is used by this function and therefore how bytes would be decoded.*
 - If you are working with an incredibly large files, **SeqIO.index_db** will store record information on disk in an SQLite3 database.
 
 ### 5.5 Writing Sequence Files
@@ -569,8 +569,8 @@ write(sequences, handle, format)
 
 #### 5.5.1 round trips
 
-- Where a written file is the same as the unaltered parsed version.
-- This may not happen, refer to [seqrecord_play.py](/scripts/seqrecord_play.py).
+- Round trips are successfully observed when the written file is the same as the unaltered parsed version.
+- This may not happen with SeqIO.write(), refer to [seqrecord_play.py](/scripts/seqrecord_play.py).
 
 #### 5.5.2 Converting between sequence file formats
 
@@ -602,12 +602,12 @@ convert(in_file, in_format, out_file, out_format, alphabet=None)
 18
 ```
 
-- Note in the above example the SeqIO.write() function prints the number of entries when writing from generators.
+- Note in the above example the SeqIO.write() function prints the number of entries when writing from generators given *len(generator)* is not feasible.
 - A further impressive entry is given in section 20.1.3 where SeqRecords are translated and written to a seperate file.
 
-### .6  Low level FASTA and FASTQ parsers
+### 5.6  Low level FASTA and FASTQ parsers
 
-- Alternatives to SeqIO.parse() for FASTA FASTQ files are **SimpleFastaParser** or **FastqGeneralIterator** e.g.
+- Alternatives to SeqIO.parse() for FASTA FASTQ files are **SimpleFastaParser** and **FastqGeneralIterator** e.g.
 
 ```python
 >>> from Bio.SeqIO.FastaIO import SimpleFastaParser
@@ -625,4 +625,5 @@ SimpleFastaParser(handle)
     identifier (the first word) and comment or description.
 ```
 
--Refer to Chapter 20 in the online tutorial for further information.
+- **SimpleFastaParser** and **FastqGeneralIterator** may yield faster workflows.
+- Refer to Chapter 20 in the online tutorial for further information.
