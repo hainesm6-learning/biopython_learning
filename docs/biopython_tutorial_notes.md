@@ -2,6 +2,7 @@
 
 - [Biopython tutorial notes](#biopython-tutorial-notes)
   - [Description](#description)
+  - [Additional useful sources](#additional-useful-sources)
   - [Sections to read](#sections-to-read)
   - [Chapter 1 Introduction](#chapter-1-introduction)
     - [1.3 installation](#13-installation)
@@ -42,11 +43,16 @@
       - [5.5.1 round trips](#551-round-trips)
       - [5.5.2 Converting between sequence file formats](#552-converting-between-sequence-file-formats)
       - [5.5.3 converting a file of sequences to their reverse complements](#553-converting-a-file-of-sequences-to-their-reverse-complements)
-    - [.6 Low level FASTA and FASTQ parsers](#6-low-level-fasta-and-fastq-parsers)
+    - [.6  Low level FASTA and FASTQ parsers](#6-low-level-fasta-and-fastq-parsers)
 
 ## Description
 
 These notes were taken by [hainesm6](https:\\github.com\hainesm6) and are based on the material provided by the [Biopython Tutorial and Cookbook](http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc15).
+
+## Additional useful sources
+
+- [Sample GenBank Record](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html#CDSB)
+- [GenBank Feature Table Definition](http://www.insdc.org/files/feature_table.html#3.3)
 
 ## Sections to read
 
